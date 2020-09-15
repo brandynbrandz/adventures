@@ -4,6 +4,18 @@ import GoogleMapReact from "google-map-react";
 require("dotenv").config();
 
 const AnyReactComponent = ({ text }) => <div className="map__name">{text}</div>;
+
+const handleApiLoaded = (map, maps) => {
+  // use map and maps objects
+  console.log("apiIsLoaded");
+  if (map) {
+    map.setOptions({
+      gestureHandling: "greedy",
+      mapTypeControl: false,
+      minZoom: 2,
+    });
+  }
+};
 class SimpleMap extends Component {
   static defaultProps = {
     center: {
@@ -22,11 +34,12 @@ class SimpleMap extends Component {
         <div className="map__img">
           <GoogleMapReact
             bootstrapURLKeys={{
-              // key: process.env.REACT_APP_GOOGLE_MAP,
-              key: "AIzaSyASFROX_KlJxcnGxSRBd1nIGN6zoDU4Bqk",
+              key: process.env.REACT_APP_GOOGLE_MAP,
             }}
             defaultCenter={this.props.center}
             defaultZoom={this.props.zoom}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
           >
             <AnyReactComponent lat={-1.267579} lng={36.905399} text="Brandz" />
           </GoogleMapReact>
